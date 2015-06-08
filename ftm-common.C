@@ -7,6 +7,8 @@
 //
 // Provided "as is" without warranty of any kind.
 
+// Patches by Fabio Muzzi, IZ4UFQ
+
 //
 // Functional tests
 //
@@ -19,6 +21,9 @@
 #include <sstream>
 #include <vector>
 #include <assert.h>
+
+#include <cstring>
+
 
 #include "ftm.h"
 

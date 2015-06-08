@@ -7,6 +7,10 @@
 //
 // Provided "as is" without warranty of any kind.
 
+// Patches to work with 12.5, 6.25 and 8.33 KHz channel spacing
+// by IZ4UFQ Fabio Muzzi Frabetti, June 2015
+
+
 #ifndef __FTM_H__
 #define __FTM_H__
 
@@ -18,8 +22,8 @@ public:
 	int slot;
 
 	int band;
-	int rx;		// in khz
-	int tx;		// in khz
+	float rx;	// in khz. Set to float and not int because I need 12.5 KHz or 6.25 KHz or 8.33 KHz steps
+	float tx;	// in khz. Set to float and not int because I need 12.5 KHz or 6.25 KHz or 8.33 KHz steps
 	int duplex; // 0, -1, +1
 	int offset; // in khz
 	int sql;

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<channels xmlns="http://boolean.net/ftm400dr/0"
+	xmlns:ext="http://boolean.net/ftm400dr/ext/0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://boolean.net/ftm400dr/0 https://raw.github.com/kz7zzz/ftm-400d/master/channels.xsd">
+	<channel bank="1" slot="11">
+		<band>UHF</band>
+		<frequency>446006.25</frequency>
+		<power>low</power>
+		<tag>PMR1</tag>
+	</channel>
+	<channel bank="1" slot="12">
+		<band>UHF</band>
+		<frequency>446018.75</frequency>
+		<power>low</power>
+		<tag>PMR2</tag>
+	</channel>
+	<channel bank="1" slot="13">
+		<band>UHF</band>
+		<frequency>446031.25</frequency>
+		<power>low</power>
+		<tag>PMR3</tag>
+	</channel>
+	<channel bank="1" slot="14">
+		<band>UHF</band>
+		<frequency>446043.75</frequency>
+		<power>low</power>
+		<tag>PMR4</tag>
+	</channel>
+	<channel bank="1" slot="15">
+		<band>UHF</band>
+		<frequency>446056.25</frequency>
+		<power>low</power>
+		<tag>PMR5</tag>
+	</channel>
+	<channel bank="1" slot="16">
+		<band>UHF</band>
+		<frequency>446068.75</frequency>
+		<power>low</power>
+		<tag>PMR6</tag>
+	</channel>
+	<channel bank="1" slot="17">
+		<band>UHF</band>
+		<frequency>446081.25</frequency>
+		<power>low</power>
+		<tag>PMR7</tag>
+	</channel>
+	<channel bank="1" slot="18">
+		<band>UHF</band>
+		<frequency>446093.75</frequency>
+		<power>low</power>
+		<tag>PMR8</tag>
+	</channel>
+</channels>

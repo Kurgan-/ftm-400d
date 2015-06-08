@@ -1,0 +1,23 @@
+
+How to test:
+
+take a memory dump from the radio containing all of the possible channel spacings.
+
+export it to XML and check XML for errors compared to what is in radio memories
+
+   ../ftm-export MEMFTM400D.dat  > test.xml
+
+then import the XML (without modifications) to a new dat file
+
+   ../ftm-import test.xml MEMFTM400D.dat MEM-OUT.dat 
+
+then export the new dat file to another xml file.
+
+   ../ftm-export MEM-OUT.dat  > test-out.xml
+
+then make a diff of the xml files: they must NOT differ.
+
+   diff test.xml  test-out.xml 
+
+
+

@@ -7,6 +7,8 @@
 //
 // Provided "as is" without warranty of any kind.
 
+// Patches by Fabio Muzzi, IZ4UFQ
+
 //
 // Functional tests
 //
@@ -16,6 +18,8 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+
+#include <cstring>
 
 using namespace std;
 

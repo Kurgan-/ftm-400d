@@ -7,6 +7,10 @@
 //
 // Provided "as is" without warranty of any kind.
 
+// Patches to work with 12.5, 6.25 and 8.33 KHz channel spacing
+// by IZ4UFQ Fabio Muzzi Frabetti, June 2015
+
+
 //
 // Yaesu FTM 400dr memory dump to XML program
 //
@@ -65,15 +69,57 @@ static void encodeChannel(
 	{
 		unsigned x = c->rx;
 		unsigned rem = x % 10;
-		if (rem >=  5) {
-			dbuf[2] |= 0x80U;		// 5Hz
+		float step = c->rx + rem - x; // this value is used to set bits to determine if frequency ends in 8.33, 12.5, 6.25 or 8.75 Khz 
+			   	              //(8.75 is for chnnels ending in 18.75, that is a valid number in 6.25 channel spacing)
+		cout << TAB "DEBUG step=" << step << endl;
+		cout << TAB "DEBUG x=" << x << endl;
+		cout << TAB "DEBUG c->rx=" << c->rx << endl;
+		cout << TAB "DEBUG rem=" << setprecision(8) << rem << endl;
+		if (rem ==  5) { 			// If frequency ends in 5
+			cout << TAB "DEBUG REM5" << endl;
+			dbuf[2] |= 0x80U;		// Add 5KHz to frequency (to make 25 KHz or 5 KHz channels)
+		}
+		if (rem ==  1) {			// If frequency ends in 1.25 (round to 1 because we are using integers)
+			cout << TAB "DEBUG REM1" << endl;
+			dbuf[2] |= 0x20U;		// Add 1.25KHz to frequency (to make some 6.25 KHz channels)
+		}
+		if (rem ==  2) {			// If frequency ends in 2.5 (round to 2 because we are using integers)
+			cout << TAB "DEBUG REM2" << endl;
+			dbuf[2] |= 0x40U;		// Add 2.5KHz to frequency (to make 12.5 KHz channels)
+		}
+		if (rem ==  3) {			// If frequency ends in 3.75 (round to 3 because we are using integers)
+			cout << TAB "DEBUG REM3" << endl;
+			dbuf[2] |= 0x20U;		// Add 1.25KHz to frequency and then
+			dbuf[2] |= 0x40U;		// Add 2.5KHz to frequency (to make some 6.25 KHz channels)
+		}
+		if (rem ==  7) {			// If frequency ends in 7.5 (round to 7 because we are using integers)
+			cout << TAB "DEBUG REM7" << endl;
+			dbuf[2] |= 0x40U;		// Add 2.5KHz to frequency and then
+			dbuf[2] |= 0x80U;		// add 5KHz to frequency (to make 12.5 KHz channels too)
+		}
+		if (rem ==  6) {			// If frequency ends in 6.25 (round to 6 because we are using integers)
+			cout << TAB "DEBUG REM6" << endl;
+			dbuf[2] |= 0x20U;		// Add 1.25KHz to frequency and then
+			dbuf[2] |= 0x80U;		// add 5KHz to frequency (to make 6.25 KHz channels)
+		}
+		if ((rem ==  8) and (step < 8.5)) {	// If frequency ends in 8.33 (need to check decimal part too)
+			cout << TAB "DEBUG REM8.33" << endl;
+			dbuf[2] |= 0x10U;		// Add 0.83KHz to frequency and then
+			dbuf[2] |= 0x40U;		// Add 2.5KHz to frequency and then
+			dbuf[2] |= 0x80U;		// add 5KHz to frequency (to make 8.33 KHz channels)
+		}
+		if ((rem ==  8) and (step > 8.5)) {	// If frequency ends in 8.75 (need to check decimal part too)
+			cout << TAB "DEBUG REM8.75" << endl;
+			dbuf[2] |= 0x20U;		// Add 1.25KHz to frequency and then
+			dbuf[2] |= 0x40U;		// Add 2.5KHz to frequency and then
+			dbuf[2] |= 0x80U;		// add 5KHz to frequency (to make 8.75 KHz channels)
 		}
 		x /= 10;
 		rem = x % 10;
-		dbuf[4] |= 0x0fU & rem;		// 10Hz
+		dbuf[4] |= 0x0fU & rem;		// 10KHz
 		x /= 10;
 		rem = x % 10;
-		dbuf[4] |= 0xf0U & (rem<<4);// 100Hz
+		dbuf[4] |= 0xf0U & (rem<<4);// 100KHz
 		x /= 10;
 		rem = x % 10;
 		dbuf[3] |= 0x0fU & rem;		// Mhz
@@ -88,8 +134,50 @@ static void encodeChannel(
 	if (c->tx) {
 		unsigned x = c->tx;
 		unsigned rem = x % 10;
-		if (rem >=  5) {
-			dbuf[6] |= 0x80U;		// 5Hz
+		float step = c->tx + rem - x; // this value is used to set bits to determine if frequency ends in 8.33, 12.5, 6.25 or 8.75 Khz 
+			   	              //(8.75 is for chnnels ending in 18.75, that is a valid number in 6.25 channel spacing)
+		cout << TAB "DEBUG TX step=" << step << endl;
+		cout << TAB "DEBUG TX x=" << x << endl;
+		cout << TAB "DEBUG TX c->tx=" << c->tx << endl;
+		cout << TAB "DEBUG TX rem=" << setprecision(8) << rem << endl;
+		if (rem ==  5) { 			// If frequency ends in 5
+			cout << TAB "DEBUG TX REM5" << endl;
+			dbuf[6] |= 0x80U;		// Add 5KHz to frequency (to make 25 KHz or 5 KHz channels)
+		}
+		if (rem ==  1) {			// If frequency ends in 1.25 (round to 1 because we are using integers)
+			cout << TAB "DEBUG TX REM1" << endl;
+			dbuf[6] |= 0x20U;		// Add 1.25KHz to frequency (to make some 6.25 KHz channels)
+		}
+		if (rem ==  2) {			// If frequency ends in 2.5 (round to 2 because we are using integers)
+			cout << TAB "DEBUG TX REM2" << endl;
+			dbuf[6] |= 0x40U;		// Add 2.5KHz to frequency (to make 12.5 KHz channels)
+		}
+		if (rem ==  3) {			// If frequency ends in 3.75 (round to 3 because we are using integers)
+			cout << TAB "DEBUG TX REM3" << endl;
+			dbuf[6] |= 0x20U;		// Add 1.25KHz to frequency and then
+			dbuf[6] |= 0x40U;		// Add 2.5KHz to frequency (to make some 6.25 KHz channels)
+		}
+		if (rem ==  7) {			// If frequency ends in 7.5 (round to 7 because we are using integers)
+			cout << TAB "DEBUG TX REM7" << endl;
+			dbuf[6] |= 0x40U;		// Add 2.5KHz to frequency and then
+			dbuf[6] |= 0x80U;		// add 5KHz to frequency (to make 12.5 KHz channels too)
+		}
+		if (rem ==  6) {			// If frequency ends in 6.25 (round to 6 because we are using integers)
+			cout << TAB "DEBUG TX REM6" << endl;
+			dbuf[6] |= 0x20U;		// Add 1.25KHz to frequency and then
+			dbuf[6] |= 0x80U;		// add 5KHz to frequency (to make 6.25 KHz channels)
+		}
+		if ((rem ==  8) and (step < 8.5)) {	// If frequency ends in 8.33 (need to check decimal part too)
+			cout << TAB "DEBUG TX REM8.33" << endl;
+			dbuf[6] |= 0x10U;		// Add 0.83KHz to frequency and then
+			dbuf[6] |= 0x40U;		// Add 2.5KHz to frequency and then
+			dbuf[6] |= 0x80U;		// add 5KHz to frequency (to make 8.33 KHz channels)
+		}
+		if ((rem ==  8) and (step > 8.5)) {	// If frequency ends in 8.75 (need to check decimal part too)
+			cout << TAB "DEBUG TX REM8.75" << endl;
+			dbuf[6] |= 0x20U;		// Add 1.25KHz to frequency and then
+			dbuf[6] |= 0x40U;		// Add 2.5KHz to frequency and then
+			dbuf[6] |= 0x80U;		// add 5KHz to frequency (to make 8.75 KHz channels)
 		}
 		x /= 10;
 		rem = x % 10;
@@ -195,10 +283,10 @@ static Channel * parseChannel(
 
 		} else if (!strcmp((const char *)cur->name, "frequency")) {
 			char *p = NULL;
-			long l = strtol(str, &p, 10);
-			c->rx = l*1000;
+			float l = strtof(str, &p);
+			c->rx = l;
 
-			if (p && *p == '.') {
+/*			if (p && *p == '.') {
 				const static int m[3] = {100, 10, 1};
 				p++;
 				for (int i=0; i<3; ++i) {
@@ -206,14 +294,14 @@ static Channel * parseChannel(
 					c->rx += m[i] * (p[i] - '0');
 				}
 			}
-
-			cout << TAB "rx=" << c->rx << endl;
+*/
+			cout << TAB "rx=" << setprecision(8) << c->rx << endl;
 
 		} else if (!strcmp((const char *)cur->name, "txFrequency")) {
 			char *p = NULL;
-			long l = strtol(str, &p, 10);
-			c->tx = l*1000;
-			if (p && *p == '.') {
+			float l = strtof(str, &p);
+			c->tx = l;
+/*			if (p && *p == '.') {
 				const static int m[3] = {100, 10, 1};
 				p++;
 				for (int i=0; i<3; ++i) {
@@ -221,8 +309,8 @@ static Channel * parseChannel(
 					c->tx += m[i] * (p[i] - '0');
 				}
 			}
-
-			cout << TAB "tx=" << c->tx << endl;
+*/
+			cout << TAB "tx=" << setprecision(8) << c->tx << endl;
 
 		} else if (!strcmp((const char *)cur->name, "offset")) {
 			if (!strcmp(str, "+")) {
@@ -390,9 +478,9 @@ static Channel * parseChannel(
 	}
 
 	if (c->duplex && !c->offset) {
-		// use US defaults
+		// use EU defaults
 		if (c->rx > 300) {
-			c->offset = 5000;
+			c->offset = 1600;
 		} else {
 			c->offset = 600;
 		}

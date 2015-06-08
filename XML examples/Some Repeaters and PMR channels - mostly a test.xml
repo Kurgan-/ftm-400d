@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channels xmlns="http://boolean.net/ftm400dr/0"
+	xmlns:ext="http://boolean.net/ftm400dr/ext/0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://boolean.net/ftm400dr/0 https://raw.github.com/kz7zzz/ftm-400d/master/channels.xsd">
+	<channel bank="1" slot="1">
+		<band>VHF</band>
+		<frequency>144000</frequency>
+		<power>high</power>
+	</channel>
+	<channel bank="1" slot="2">
+		<band>UHF</band>
+		<frequency>431312.5</frequency>
+		<offset>+1.600</offset>
+		<sql>T-TX</sql>
+		<tone>141.3</tone>
+		<power>high</power>
+		<tag>RU19a</tag>
+	</channel>
+	<channel bank="1" slot="3">
+		<band>UHF</band>
+		<frequency>430175</frequency>
+		<offset>+1.600</offset>
+		<sql>T-TX</sql>
+		<tone>77.0</tone>
+		<power>high</power>
+		<tag>RU7</tag>
+	</channel>
+	<channel bank="1" slot="4">
+		<band>UHF</band>
+		<frequency>430037.5</frequency>
+		<offset>+1.600</offset>
+		<sql>T-TX</sql>
+		<tone>88.5</tone>
+		<power>high</power>
+		<tag>RU1a</tag>
+	</channel>
+	<channel bank="1" slot="5">
+		<band>VHF</band>
+		<frequency>145687.5</frequency>
+		<offset>-0.600</offset>
+		<power>high</power>
+		<tag>R3a</tag>
+	</channel>
+	<channel bank="1" slot="6">
+		<band>VHF</band>
+		<frequency>145637.5</frequency>
+		<offset>-0.600</offset>
+		<power>high</power>
+		<tag>R1a</tag>
+	</channel>
+	<channel bank="1" slot="7">
+		<band>VHF</band>
+		<frequency>145387.5</frequency>
+		<power>high</power>
+		<tag>Diretta</tag>
+	</channel>
+	<channel bank="1" slot="11">
+		<band>UHF</band>
+		<frequency>446006.25</frequency>
+		<power>low</power>
+		<tag>PMR1</tag>
+	</channel>
+	<channel bank="1" slot="12">
+		<band>UHF</band>
+		<frequency>446018.75</frequency>
+		<power>low</power>
+		<tag>PMR2</tag>
+	</channel>
+	<channel bank="1" slot="13">
+		<band>UHF</band>
+		<frequency>446031.25</frequency>
+		<power>low</power>
+		<tag>PMR3</tag>
+	</channel>
+	<channel bank="1" slot="14">
+		<band>UHF</band>
+		<frequency>446043.75</frequency>
+		<power>low</power>
+		<tag>PMR4</tag>
+	</channel>
+	<channel bank="1" slot="15">
+		<band>UHF</band>
+		<frequency>446056.25</frequency>
+		<power>low</power>
+		<tag>PMR5</tag>
+	</channel>
+	<channel bank="1" slot="16">
+		<band>UHF</band>
+		<frequency>446068.75</frequency>
+		<power>low</power>
+		<tag>PMR6</tag>
+	</channel>
+	<channel bank="1" slot="17">
+		<band>UHF</band>
+		<frequency>446081.25</frequency>
+		<power>low</power>
+		<tag>PMR7</tag>
+	</channel>
+	<channel bank="1" slot="18">
+		<band>UHF</band>
+		<frequency>446093.75</frequency>
+		<power>low</power>
+		<tag>PMR8</tag>
+	</channel>
+	<channel bank="1" slot="23">
+		<band>UHF</band>
+		<frequency>430175</frequency>
+		<offset>+1.600</offset>
+		<sql>T-TX</sql>
+		<tone>77.0</tone>
+		<power>high</power>
+		<tag>T-ru7</tag>
+	</channel>
+	<channel bank="1" slot="24">
+		<band>Gen2</band>
+		<frequency>999987.5</frequency>
+		<power>high</power>
+		<tag>T99987.5</tag>
+	</channel>
+	<channel bank="1" slot="25">
+		<band>UHF</band>
+		<frequency>446006.25</frequency>
+		<offset>+1.600</offset>
+		<sql>T-TX</sql>
+		<tone>77.0</tone>
+		<power>high</power>
+		<tag>T-pmr1of</tag>
+	</channel>
+	<channel bank="1" slot="26">
+		<band>Air</band>
+		<frequency>113008.33</frequency>
+		<mode>AM</mode>
+		<power>high</power>
+		<tag>Tair8.33</tag>
+	</channel>
+	<channel bank="1" slot="27">
+		<band>UHF</band>
+		<frequency>431312.5</frequency>
+		<txFrequency>432912.5</txFrequency>
+		<sql>T-TX</sql>
+		<tone>141.3</tone>
+		<power>high</power>
+		<tag>TRU19asp</tag>
+	</channel>
+	<channel bank="2" slot="1">
+		<band>UHF</band>
+		<frequency>430000</frequency>
+		<power>medium</power>
+	</channel>
+	<channel bank="2" slot="2">
+		<band>VHF</band>
+		<frequency>144800</frequency>
+		<power>high</power>
+		<tag>APRS</tag>
+	</channel>
+</channels>

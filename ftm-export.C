@@ -7,6 +7,9 @@
 //
 // Provided "as is" without warranty of any kind.
 
+// Patches to work with 12.5, 6.25 and 8.33 KHz channel spacing
+// by IZ4UFQ Fabio Muzzi Frabetti, June 2015
+
 //
 // Yaesu FTM 400dr memory dump to XML program
 //
@@ -44,7 +47,10 @@ static Channel * decodeChannel(
 	chn->rx += 1000 * (c[3] & 0x0fU);
 	chn->rx += 100 * ((c[4] & 0xf0U)>>4);
 	chn->rx += 10 * (c[4] & 0x0fU);
-	if (c[2] & 0x80U) chn->rx += 5;
+	if (c[2] & 0x80U) chn->rx += 5;    /* Add 5 KHz */
+	if (c[2] & 0x40U) chn->rx += 2.5;  /* Add 2.5 KHz to allow for 12.5 channel spacing (10+2.5) and also 6.25 (6.25*3 = 18.75 = 5+2.5+1.25) */
+	if (c[2] & 0x20U) chn->rx += 1.25; /* Add 1.25 KHz to allow for 6.25 channel spacing (5+1.25)*/
+	if (c[2] & 0x10U) chn->rx += 0.83; /* Add 0.83 KHz to allow for 8.33 channel spacing (5+2.5+0.83)*/
 
 	switch (c[1] & 0x07U) {
 	case 0x02U: chn->duplex = -1; break;
@@ -55,7 +61,10 @@ static Channel * decodeChannel(
 		chn->tx += 1000 * (c[7] & 0x0fU);
 		chn->tx += 100 * ((c[8] & 0xf0U)>>4);
 		chn->tx += 10 * (c[8] & 0x0fU);
-		if (c[6] & 0x80U) chn->tx += 5;
+		if (c[6] & 0x80U) chn->tx += 5;    /* Add 5 KHz */
+		if (c[6] & 0x40U) chn->tx += 2.5;  /* Add 2.5 KHz to allow for 12.5 channel spacing (10+2.5) and also 6.25 (6.25*3 = 18.75 = 5+2.5+1.25) */
+		if (c[6] & 0x20U) chn->tx += 1.25; /* Add 1.25 KHz to allow for 6.25 channel spacing (5+1.25)*/
+		if (c[6] & 0x10U) chn->tx += 0.83; /* Add 0.83 KHz to allow for 8.33 channel spacing (5+2.5+0.83)*/
 	}
 
 	// c[5] & 0x0FU ?
@@ -99,12 +108,10 @@ void channel2xml(
 		cout << TAB TAB << "<band>" << bands[chn->band] << "</band>" << endl;
 	}
 
-	cout << TAB TAB << "<frequency>" << chn->rx / 1000 << "."
-		 << setfill('0') << setw(3) << chn->rx % 1000 << "</frequency>" << endl;
+	cout << TAB TAB << "<frequency>" << setprecision(8) << chn->rx << "</frequency>" << endl;
 
 	if (chn->tx) {
-		cout << TAB TAB << "<txFrequency>" << chn->tx / 1000 << "."
-			<< setfill('0') << setw(3) << chn->tx % 1000 << "</txFrequency>" << endl;
+		cout << TAB TAB << "<txFrequency>" << setprecision(8) << chn->tx << "</txFrequency>" << endl;
 
 	} else if (chn->duplex && chn->offset) {
 		cout << TAB TAB << "<offset>";
